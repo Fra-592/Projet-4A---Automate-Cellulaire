@@ -13,7 +13,9 @@ import Comportemental.ActeurType;
 import Environnement.Case;
 import Environnement.CaseType;
 import Environnement.Terrain;
+import Exceptions.FenetreErreurFatale;
 import Exceptions.HorsLimite;
+import Exceptions.NoTerrain;
 
 @SuppressWarnings("serial")
 public class PanneauCreationTerrain extends PanneauAffichageTerrain {
@@ -30,7 +32,7 @@ public class PanneauCreationTerrain extends PanneauAffichageTerrain {
 	}
 	
 	private class MouseAction extends MouseAdapter {
-		public boolean inPlateau(MouseEvent e) {
+		public boolean inPlateau(MouseEvent e) throws NoTerrain {
 			Terrain t = Terrain.getInstance();
 			
 			if ((10 <= e.getX()) && (e.getX() <= 10+4*(t.getXMax()+1))) 
@@ -39,18 +41,18 @@ public class PanneauCreationTerrain extends PanneauAffichageTerrain {
 			return false ;
 		}
 		
-		public Case getCase(MouseEvent e) {
-			Terrain t = Terrain.getInstance() ;
-			int x = e.getX();
-			int y = e.getY();
-			int i, j ;
-			
-			i = (x-10)/4 ;
-			j = (y-10)/4 ;
-			
-			System.out.println("creation case en : x = " + i + " et y = " + j ) ;
-			
+		public Case getCase(MouseEvent e) throws NoTerrain {
 			try {
+				Terrain t = Terrain.getInstance() ;
+				int x = e.getX();
+				int y = e.getY();
+				int i, j ;
+			
+				i = (x-10)/4 ;
+				j = (y-10)/4 ;
+			
+				System.out.println("creation case en : x = " + i + " et y = " + j ) ;
+			
 				return t.getCase(i,j) ;
 			} catch (HorsLimite h) {
 				return null ;
@@ -62,17 +64,21 @@ public class PanneauCreationTerrain extends PanneauAffichageTerrain {
 			int bouton = e.getButton() ;
 			
 			if (bouton == MouseEvent.BUTTON1) {				// Si clic gauche ...
-				if (this.inPlateau(e)) {
-					Case c = this.getCase(e) ;
-					if (c != null) {
-						if (p.choixAction.getSelectedItem() == "Case") {
-							c.changeType((CaseType) p.listeType.getSelectedItem());
-							repaint() ;
-						} else {
-							c.ajoutActeur((ActeurType) p.listeType.getSelectedItem());
-							repaint() ;
+				try {
+					if (this.inPlateau(e)) {
+						Case c = this.getCase(e) ;
+						if (c != null) {
+							if (p.choixAction.getSelectedItem() == "Case") {
+								c.changeType((CaseType) p.listeType.getSelectedItem());
+								repaint() ;
+							} else {
+								c.ajoutActeur((ActeurType) p.listeType.getSelectedItem());
+								repaint() ;
+							}
 						}
 					}
+				} catch (NoTerrain exception) {
+					new FenetreErreurFatale(exception.toString()) ;
 				}
 			}
 		}

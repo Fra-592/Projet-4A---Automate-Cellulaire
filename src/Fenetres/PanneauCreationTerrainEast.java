@@ -1,8 +1,10 @@
 package Fenetres;
 
+import java.awt.Color;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -34,14 +36,17 @@ public class PanneauCreationTerrainEast extends JPanel {
 		
 		p1.add(l1);
 		p1.add(choixAction) ;
+		p1.setBackground(Color.GRAY);
 		
 		p2.add(l2) ;
 		p2.add(listeType);
+		p2.setBackground(Color.GRAY);
 		
 		this.choixAction.addItemListener(new ListeChangeAction());
 		
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 		this.add(p1) ;
+		this.add(Box.createVerticalStrut(25));
 		this.add(p2);
 	}
 	

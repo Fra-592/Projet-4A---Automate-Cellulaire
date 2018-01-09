@@ -6,6 +6,8 @@ import java.util.TimerTask;
 import javax.swing.JFrame;
 
 import Environnement.Terrain;
+import Exceptions.FenetreErreurFatale;
+import Exceptions.NoTerrain;
 
 @SuppressWarnings("serial")
 public class Simulation implements Runnable {
@@ -34,13 +36,17 @@ public class Simulation implements Runnable {
 	
 	private class SimulationTask extends TimerTask {
 		public void run() {
-			if (!Terrain.getInstance().estTermine()) {
-				Terrain.getInstance().evolution() ;
-				f.repaint();
-			} else {
-				FenetreStat f = new FenetreStat() ;
-				
-				this.cancel() ;
+			try {
+				if (!Terrain.getInstance().estTermine()) {
+					Terrain.getInstance().evolution() ;
+					f.repaint();
+				} else {
+					FenetreStat f = new FenetreStat() ;
+					
+					this.cancel() ;
+				}
+			} catch (NoTerrain e) {
+				new FenetreErreurFatale(e.toString()) ;
 			}
 		}
 	}

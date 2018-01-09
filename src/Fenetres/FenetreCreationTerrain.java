@@ -50,7 +50,7 @@ public class FenetreCreationTerrain extends JFrame {
 	}
 	
 	public static void main(String[] args) {
-		Terrain t = Terrain.create(50, 100) ;
+		//Terrain t = Terrain.create(50, 100) ;
 		
 		FenetreCreationTerrain f = new FenetreCreationTerrain() ;
 	}

@@ -4,6 +4,7 @@ import Environnement.Case;
 import Environnement.Terrain;
 import Exceptions.HorsLimite;
 import Exceptions.NoActor;
+import Exceptions.NoTerrain;
 
 /**
  * Comportement de base contenant les methodes utilisables a la construction d'un comportement specifique pour un acteur.
@@ -18,7 +19,7 @@ public abstract class BaseComportement {
 	 * 
 	 * @return Renvoie le terrain de la simulation.
 	 */
-	public Terrain getTerrain() {
+	public Terrain getTerrain() throws NoTerrain {
 		return Terrain.getInstance() ;
 	}
 	
@@ -34,7 +35,7 @@ public abstract class BaseComportement {
 	 * 
 	 * @see Terrain
 	 */
-	public Case getCase(int x, int y) throws HorsLimite {
+	public Case getCase(int x, int y) throws HorsLimite, NoTerrain {
 		Terrain plateau = this.getTerrain() ;
 		
 		return plateau.getCase(x, y) ;
@@ -52,16 +53,16 @@ public abstract class BaseComportement {
 	 * 
 	 * @see Terrain
 	 */	
-	public Acteur getActeur(int x, int y) throws HorsLimite, NoActor {
+	public Acteur getActeur(int x, int y) throws HorsLimite, NoActor, NoTerrain {
 		Case caseActeur = this.getCase(x, y) ;
 		
 		return caseActeur.getActeur() ;
 	}
 	
 	public void actionMort(int x, int y) {
-		Terrain t = Terrain.getInstance() ;
-		
 		try {
+			Terrain t = Terrain.getInstance() ;
+			
 			Acteur a = this.getActeur(x, y) ;
 			
 			t.stat.ajouterMort(a);

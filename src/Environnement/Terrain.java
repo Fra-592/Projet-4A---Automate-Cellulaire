@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import Exceptions.HorsLimite;
-
+import Exceptions.NoTerrain;
 import Comportemental.Acteur;
 import Comportemental.ActeurType;
 
@@ -154,7 +154,8 @@ public class Terrain {
 	 * 
 	 * @return Renvoie le terrain actuel.
 	 */
-	public static Terrain getInstance() {
+	public static Terrain getInstance() throws NoTerrain {
+		if (Terrain.uniqueInstance == null) throw new NoTerrain() ;
 		return Terrain.uniqueInstance ;
 	}
 	

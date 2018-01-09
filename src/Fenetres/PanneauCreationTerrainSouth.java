@@ -9,6 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import Environnement.Terrain;
+import Exceptions.FenetreErreurFatale;
+import Exceptions.NoTerrain;
+import Exceptions.WindowedException;
 
 @SuppressWarnings("serial")
 public class PanneauCreationTerrainSouth extends JPanel {
@@ -33,7 +36,11 @@ public class PanneauCreationTerrainSouth extends JPanel {
 			fContainer.setVisible(false);
 			fContainer.dispose() ;
 			
-			Terrain.getInstance().initialiser();
+			try {
+				Terrain.getInstance().initialiser();
+			} catch (NoTerrain exception) {
+				new FenetreErreurFatale(exception.toString()) ;
+			}
 			
 			Thread th = new Thread(new Simulation()) ;
 											// Des que finit revenir a la fenetre PanneauCreationTerrain !		

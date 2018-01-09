@@ -3,6 +3,7 @@ package Comportemental;
 import java.awt.Color;
 
 import Environnement.Terrain;
+import Exceptions.NoTerrain;
 
 /**
  * Decrit un acteur, origine d'actions decrites par un comportement specifique a chaqu'un.
@@ -42,8 +43,12 @@ public class Acteur {
 		
 		this.recente = false ;
 		
-		Terrain t = Terrain.getInstance();				// Incrementation nombre creation de ce type d'acteur.
-		t.stat.ajouterCreation(this);
+		try {
+			Terrain t = Terrain.getInstance();				// Incrementation nombre creation de ce type d'acteur.
+			t.stat.ajouterCreation(this);
+		} catch (NoTerrain e) {
+			
+		}
 		
 		System.out.println("Nouveau " + nom.toString() + " en " + x + " " + y) ;	
 						// else throw error.

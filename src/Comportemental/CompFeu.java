@@ -31,7 +31,7 @@ public class CompFeu extends BaseComportement implements Comportement {
 
 				caseAdj.setActeur(flamme); ;
 			}
-		} catch (HorsLimite e) {
+		} catch (HorsLimite | NoTerrain e) {
 												// Enregistrer dans un fichier log les erreurs.			
 		}
 	}
@@ -42,12 +42,13 @@ public class CompFeu extends BaseComportement implements Comportement {
 	 * @param x Abscisse du feu.
 	 * @param y Ordonnee du feu.
 	 */
+	@Override
 	public void action(int x, int y) {
 		try {
 			Acteur act = this.getActeur(x, y) ;				// Recuperation du feu correspondant.
 		
 			act.decVie(1) ;				// Reduire sa duree de vie
-		} catch (HorsLimite | NoActor e) {
+		} catch (HorsLimite | NoActor | NoTerrain e) {
 												// Enregistrer dans un fichier log les erreurs.
 		}
 	}
@@ -58,6 +59,7 @@ public class CompFeu extends BaseComportement implements Comportement {
 	 * @param x Abscisse du feu.
 	 * @param y Ordonnee du feu.
 	 */
+	@Override
 	public void mouvement(int x, int y) {				// Prendre en compte la meteo ( changer la description ! )
 		Random r = new Random() ;
 		
@@ -77,11 +79,12 @@ public class CompFeu extends BaseComportement implements Comportement {
 	 * @param x Abscisse du feu.
 	 * @param y Ordonnee du feu.
 	 */
+	@Override
 	public void actionMortSpecifique(int x, int y) {
 		try {
 			this.getCase(x, y).changeType(CaseType.Cendre) ;				// La case devient de la cendre.
 			this.getCase(x, y).setActeur(null);						// Elle ne contient plus d'acteur.
-		} catch (HorsLimite e) {
+		} catch (HorsLimite | NoTerrain e) {
 												// Enregistrer dans un fichier log les erreurs.												
 		}
 	}
@@ -93,10 +96,11 @@ public class CompFeu extends BaseComportement implements Comportement {
 	 * @param x Abscisse du feu.
 	 * @param y Ordonnee du feu.
 	 */
+	@Override
 	public void mort(int x, int y) {
 		try {
 			this.getCase(x, y).setActeur(null) ;
-		} catch (HorsLimite e) {
+		} catch (HorsLimite | NoTerrain e) {
 												// Enregistrer dans un fichier log les erreurs !
 		}
 	}

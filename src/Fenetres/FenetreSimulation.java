@@ -6,6 +6,8 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import Environnement.Terrain;
+import Exceptions.FenetreErreurFatale;
+import Exceptions.NoTerrain;
 
 /**
  * Fenetre montrant le deroulement de la simulation.
@@ -61,12 +63,16 @@ public class FenetreSimulation extends JFrame {
 	}
 	
 	public void simulation() {
-		Terrain t = Terrain.getInstance() ;
+		try {
+			Terrain t = Terrain.getInstance() ;
 		
-		do {
-			t.evolution();
-			this.update(this.getGraphics());;
-			paint(getGraphics()) ;
-		} while(true) ;
+			do {
+				t.evolution();
+				this.update(this.getGraphics());;
+				paint(getGraphics()) ;
+			} while(true) ;
+		} catch (NoTerrain e) {
+			new FenetreErreurFatale(e.toString()) ;
+		}
 	}
 }

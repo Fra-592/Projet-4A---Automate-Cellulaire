@@ -39,7 +39,7 @@ public class CompPompier extends BaseComportement implements Comportement {
 						firePos[0] = i ;			// Enregistrement de la position du feu.
 						firePos[1] = j ;
 					}
-				} catch (HorsLimite | NoActeurType e) {
+				} catch (HorsLimite | NoActeurType | NoTerrain e) {
 					// Enregistrer dans un fichier log les erreurs.
 				}
 			}
@@ -61,7 +61,7 @@ public class CompPompier extends BaseComportement implements Comportement {
 			if ((casePompier.getAccessible() == true) && (casePompier.getActeurPresent() == false)) {					// Peut être Cahnger la place de la condition !!!!!!!!!!!!!!!!!!!!!!
 				casePompier.ajoutActeur(ActeurType.Pompier);
 			}
-		} catch (HorsLimite e) {
+		} catch (HorsLimite | NoTerrain e) {
 															// Enregistrer dans un fichier log les erreurs.
 		}
 	}
@@ -72,6 +72,7 @@ public class CompPompier extends BaseComportement implements Comportement {
 	 * @param x Abscisse du pompier.
 	 * @param y Coordonnee du pompier.
 	 */
+	@Override
 	public void action(int x, int y) {
 		int[] posFire = fireInRange(x,y) ;
 		//System.out.println("Action pompier en (" + x + "," + y + ") avec un feu en " + posFire[0] + " , " + posFire[1]) ;
@@ -85,7 +86,7 @@ public class CompPompier extends BaseComportement implements Comportement {
 					Case caseFeu = this.getCase(posFire[0], posFire[1]) ;
 				
 					caseFeu.setActeur(null);				// Extinction du feu sur la case.
-				} catch (HorsLimite e) {
+				} catch (HorsLimite | NoTerrain e) {
 															// Enregistrer dans un fichier log les erreurs.
 				}
 			}
@@ -98,6 +99,7 @@ public class CompPompier extends BaseComportement implements Comportement {
 	 * @param x Abscisse du pompier.
 	 * @param y Coordonnee du pompier.
 	 */
+	@Override
 	public void mouvement(int x, int y) {
 		int[] firePos ;
 		
@@ -121,10 +123,11 @@ public class CompPompier extends BaseComportement implements Comportement {
 	 * @param x Abscisse du pompier.
 	 * @param y Coordonnee du pompier.
 	 */
+	@Override
 	public void actionMortSpecifique(int x, int y) {
 		try {
 			this.getCase(x, y).setActeur(null);
-		} catch (HorsLimite e) {}
+		} catch (HorsLimite | NoTerrain e) {}
 	}
 	
 	/**
@@ -133,9 +136,10 @@ public class CompPompier extends BaseComportement implements Comportement {
 	 * @param x Abscisse du pompier.
 	 * @param y Coordonnee du pompier.
 	 */
+	@Override
 	public void mort(int x, int y) {
 		try {
 			this.getCase(x, y).setActeur(null);
-		} catch (HorsLimite e) {}
+		} catch (HorsLimite | NoTerrain e) {}
 	}
 }

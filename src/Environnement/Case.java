@@ -6,6 +6,7 @@ import Comportemental.Acteur;
 import Comportemental.ActeurType;
 import Exceptions.NoActeurType;
 import Exceptions.NoActor;
+import Exceptions.NoTerrain;
 
 /**
  * Element constitutif du plateau de jeu : une case n'est pas animee mais ses caracteristiques influent sur les actions des divers acteurs.
@@ -49,7 +50,7 @@ public class Case {
 	 * @param type Type de case a creer
 	 * @param nomActeur Type d'acteur present sur la case
 	 */
-	public Case(int x, int y, CaseType type, ActeurType nomActeur) {
+	public Case(int x, int y, CaseType type, ActeurType nomActeur) throws NoTerrain {
 		this(x,y,type) ;				// Appel au constructeur de base. 
 		
 		this.act = new Acteur(nomActeur, x, y) ;
@@ -136,7 +137,7 @@ public class Case {
 	 * 
 	 * @param nom Type de l'acteur a ajouter sur la case.
 	 */
-	public void ajoutActeur(ActeurType nom) {
+	public void ajoutActeur(ActeurType nom) throws NoTerrain {
 		this.setActeur(new Acteur(nom, posX, posY)) ;
 		System.out.println("ajoutActeur : x = " + posX + " y = " + posY + " type : " + nom.toString());
 	}
@@ -145,7 +146,7 @@ public class Case {
 		try {
 			if (this.getActeurPresent())								// Si acteur present, le supprimer des acteurs a faire jouer.
 				Terrain.getInstance().supprimer(this.getActeur());
-		} catch (NoActor e) {}
+		} catch (NoActor | NoTerrain e) {}
 		
 		this.actPresent = false ;				// Suppression de l'acteur de la case.
 		this.act = null ;
@@ -156,7 +157,7 @@ public class Case {
 	 * 
 	 * @param newAct Acteur a placer sur la case.
 	 */
-	public void setActeur(Acteur newAct) {
+	public void setActeur(Acteur newAct) throws NoTerrain {
 		if (newAct != null) {
 			if (this.actPresent)
 				this.supprimerActeur() ;

@@ -6,8 +6,6 @@ import java.io.File;
 
 import javax.imageio.ImageIO;
 
-import Fenetres.FenetreSimulation;
-
 /**
  * Analyse d'une image rentree manuellement par l'utilisateur.
  * Transforme une image en un Terrain par discretisation et rapprochement aux CaseType implementees.
@@ -49,8 +47,6 @@ public class ImageCarte {
 	public void toTerrain() {
 		int h = this.image.getHeight() / 4 ;
 		int w = this.image.getWidth() / 4 ;
-		
-		Terrain t = Terrain.create(w, h) ;
 		
 		for (int j = 0; j<h; j++) 								// Pour chaque case du terrain ...
 			for (int i = 0; i<w; i++) 
