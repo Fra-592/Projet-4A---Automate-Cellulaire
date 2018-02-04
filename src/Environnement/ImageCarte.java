@@ -45,8 +45,8 @@ public class ImageCarte {
 	 * Convertie l'image en un Terrain. ( 1 case = 1 carre de 4 pixels )
 	 */
 	public void toTerrain() {
-		int h = this.image.getHeight() / 4 ;
-		int w = this.image.getWidth() / 4 ;
+		int h = this.image.getHeight() / 2 ;
+		int w = this.image.getWidth() / 2 ;
 		Terrain.create(h, w);
 		
 		for (int i = 0; i<h; i++) 								// Pour chaque case du terrain ...
