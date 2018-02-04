@@ -52,7 +52,7 @@ public class FenetreImageInput extends JFrame {
 		
 		this.setSize(400, 100);								// Fixer la dimension de la fenetre. ( en fonction des panneaux contenus )
 		
-		this.apercu = new JButton("Appercu") ;				// Initialisation des boutons
+		this.apercu = new JButton("Apercu") ;				// Initialisation des boutons
 		this.continuer = new JButton("Continuer") ;
 		
 		this.apercu.addActionListener(new ApercuAction());	// Association avec les actions associees.
@@ -82,7 +82,9 @@ public class FenetreImageInput extends JFrame {
 		 */
 		public void actionPerformed(ActionEvent e) {
 			String path = fichierInput.getText() ;
-			
+			//
+			System.out.println(path);
+			//
 			fichier = new ImageCarte(path) ;
 			fichier.toTerrain();
 			

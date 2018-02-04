@@ -47,9 +47,10 @@ public class ImageCarte {
 	public void toTerrain() {
 		int h = this.image.getHeight() / 4 ;
 		int w = this.image.getWidth() / 4 ;
+		Terrain.create(h, w);
 		
-		for (int j = 0; j<h; j++) 								// Pour chaque case du terrain ...
-			for (int i = 0; i<w; i++) 
+		for (int i = 0; i<h; i++) 								// Pour chaque case du terrain ...
+			for (int j = 0; j<w; j++) 
 				this.analyser(i, j) ;								// ... Analyser la case i, j du plateau.
 	}
 	
@@ -138,7 +139,7 @@ public class ImageCarte {
 		
 		for (int i=0; i < 2; i++) 								// Recuperation des couleurs des pixel (x,y) / (x+1,y)
 			for (int j=0; j<2; j++) 								// (x,y+1) / (x+1, y+1)
-				couleurs[i*2 + j] = this.image.getRGB(x*4+i, y*4+j) ;
+				couleurs[i*2 + j] = this.image.getRGB(x*2+i, y*2+j) ;
 		
 		int moyenne ;
 		
@@ -151,6 +152,7 @@ public class ImageCarte {
 				Terrain.getInstance().getCase(x, y).changeType(ct);
 		} catch (Exception e) {
 			System.out.println("Erreur analyse case.");
+			e.printStackTrace();
 		}
 	}
 }
