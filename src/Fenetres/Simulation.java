@@ -12,17 +12,16 @@ import Exceptions.NoTerrain;
 @SuppressWarnings("serial")
 public class Simulation implements Runnable {
 	private FenetreSimulation f ;
-	public int mode ;
+	public boolean running ;
+    private final Object pauser = new Object();
+	
 	
 	/**
 	 * 
 	 */
-	public Simulation() {
-		this.f = new FenetreSimulation() ;
-		
-		f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		
-		this.mode = 0 ;
+	public Simulation(FenetreSimulation fensim) {
+		this.f = fensim;
+		this.running = false;
 	}
 	
 	/**
@@ -34,12 +33,34 @@ public class Simulation implements Runnable {
 		t.schedule(new SimulationTask() , 0, 250);
 	}
 	
+	public void pause()
+	{
+		this.running = false;
+	}
+	
+	public void runback()
+	{
+		synchronized(pauser) {
+			this.running = true;
+			pauser.notifyAll();
+		}
+	}
+	
 	private class SimulationTask extends TimerTask {
 		public void run() {
 			try {
 				if (!Terrain.getInstance().estTermine()) {
-					Terrain.getInstance().evolution() ;
-					f.repaint();
+					synchronized (pauser) {
+						if(running) {
+						
+							Terrain.getInstance().evolution() ;
+							f.repaint();
+						} else {
+							try {
+								pauser.wait();
+							} catch (InterruptedException e) {}
+						}
+					}
 				} else {
 					FenetreStat f = new FenetreStat() ;
 					

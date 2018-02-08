@@ -42,9 +42,7 @@ public class PanneauCreationTerrainSouth extends JPanel {
 				new FenetreErreurFatale(exception.toString()) ;
 			}
 			
-			Thread th = new Thread(new Simulation()) ;
-											// Des que finit revenir a la fenetre PanneauCreationTerrain !		
-			th.run() ;
+			FenetreSimulation fs = new FenetreSimulation() ;
 		}
 	}
 }

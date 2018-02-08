@@ -20,7 +20,8 @@ import Exceptions.NoTerrain;
 public class FenetreSimulation extends JFrame {
 	public PanneauSimulation p ;
 	private PanneauSimulationSouth pSouth ;
-	private int mode ;												// A REVOIR !!!!!!!!!!!!!!!!!!!!! public ???
+	private Simulation simulation;
+	private Thread thrsimul;
 	
 	/**
 	 * Constructeur par defaut.
@@ -30,7 +31,7 @@ public class FenetreSimulation extends JFrame {
 		
 		this.setTitle("Simulation");
 		this.setLocation(100, 100);
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE); 							// A redefinir ( avec un message de confirmation etc ... !!! )
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
 		this.p = new PanneauSimulation() ;
 		this.pSouth = new PanneauSimulationSouth(this) ;
@@ -44,21 +45,22 @@ public class FenetreSimulation extends JFrame {
 		this.add(pSouth, BorderLayout.SOUTH) ;
 		
 		this.validate();
-		
-		this.mode = 1 ;								// Par defaut : simulation en pause.
+		this.simulation = new Simulation(this);
+		this.thrsimul = new Thread(this.simulation);
 		
 		this.setVisible(true);
+		thrsimul.run();
 	}
 	
 	public void toPause() {
-		this.mode = 0 ;
+		simulation.pause();
 	}
 	
 	public void toSuivant() {
-		this.mode = 2 ;
+		//simulation.step();
 	}
 	
 	public void toContinuer() {
-		this.mode = 1 ;
+		simulation.runback();
 	}
 }
