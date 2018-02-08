@@ -61,18 +61,4 @@ public class FenetreSimulation extends JFrame {
 	public void toContinuer() {
 		this.mode = 1 ;
 	}
-	
-	public void simulation() {
-		try {
-			Terrain t = Terrain.getInstance() ;
-		
-			do {
-				t.evolution();
-				this.update(this.getGraphics());;
-				paint(getGraphics()) ;
-			} while(true) ;
-		} catch (NoTerrain e) {
-			new FenetreErreurFatale(e.toString()) ;
-		}
-	}
 }
